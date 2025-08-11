@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="assets/logo.png" alt="ArcVault Logo" width="200"/>
+  <img src="assets/arcvault-logo.png" alt="ArcVault Logo" width="200"/>
 </p>
-
 
 
 # ArcVault Contribution NFT (ARCV-NFT)
