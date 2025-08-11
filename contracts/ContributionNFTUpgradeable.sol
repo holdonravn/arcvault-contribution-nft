@@ -1,24 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/*
-  ArcVault Contribution NFT — v1.0.4 (upgradeable)
-  Changes:
-   - Custom errors (gas ↓)
-   - Separate nonces: mintNonce / updateNonce
-   - contribution(id) view helper
-   - Keeps: per-token freeze, SBT lock in _update, EIP-712 mint/update, 4906 signals
+/*  ArcVault Contribution NFT (Upgradeable, “Vitalik-grade”)
+    - OZ 4.9.5 upgradeable importları pinli (supply-chain hygiene)
+    - EIP-712 imzalı Mint/Update (EOA + EIP-1271)
+    - Soulbound toggle + token-bazlı freeze
+    - ERC721 + ERC2981 + Pausable + AccessControl + UUPS
+    - Opsiyonel EAS attestation (schema/adres verilirse)
 */
 
-// ───────────────────── OpenZeppelin v4.9.5 (upgradeable) ─────────────────────
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/proxy/utils/Initializable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/proxy/utils/UUPSUpgradeable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/access/AccessControlUpgradeable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/token/ERC721/ERC721Upgradeable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/token/common/ERC2981Upgradeable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/utils/cryptography/EIP712Upgradeable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/utils/cryptography/SignatureCheckerUpgradeable.sol";
+// ---------- OpenZeppelin (upgradeable) ----------
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/proxy/utils/Initializable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/proxy/utils/UUPSUpgradeable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/access/AccessControlUpgradeable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/token/ERC721/ERC721Upgradeable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/token/common/ERC2981Upgradeable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/utils/cryptography/EIP712Upgradeable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts-upgradeable/v4.9.5/contracts/utils/cryptography/SignatureCheckerUpgradeable.sol";
+
+// ---------- Optional EAS (minimal interface) ----------
+interface IEAS {
+    function attest(bytes32 schema, bytes calldata data) external returns (bytes32 uid);
+}
 
 contract ContributionNFTUpgradeable is
     Initializable,
@@ -31,52 +35,58 @@ contract ContributionNFTUpgradeable is
 {
     using SignatureCheckerUpgradeable for address;
 
-    // ── Custom errors (gas-friendly)
-    error ZeroTo();
+    // -------- Roles --------
+    bytes32 public constant POLICY_ADMIN   = keccak256("POLICY_ADMIN");    // pause, SBT, policy ops
+    bytes32 public constant METADATA_ADMIN = keccak256("METADATA_ADMIN");  // baseURI & royalty
+    bytes32 public constant SIGNER_ROLE    = keccak256("SIGNER_ROLE");     // EIP-712 onaylayıcılar
+
+    // -------- Custom errors (gas) --------
+    error Frozen();
+    error BadNonce();
     error BadScore();
+    error ZeroTo();
     error NoSignerRole();
     error Expired();
-    error BadNonce();
-    error Frozen();
-    error BadAdmin();
 
-    // Version
-    uint64 public contractVersion; // v1.0.4
-
-    // Roles
-    bytes32 public constant POLICY_ADMIN   = keccak256("POLICY_ADMIN");
-    bytes32 public constant METADATA_ADMIN = keccak256("METADATA_ADMIN");
-    bytes32 public constant SIGNER_ROLE    = keccak256("SIGNER_ROLE");
-
-    // State
-    uint256 public nextId;          // token ids (1’den başlar)
-    string  private baseURIcustom;  // ipfs:// veya gateway
-    bool    public  soulboundMode;  // true => transfer/approvals kilit
-    mapping(uint256 => bool) public frozen; // per-token kalıcı freeze
+    // -------- Storage --------
+    uint256 public nextId;                 // token ids (1'den başlar)
+    string  private baseURIcustom;         // "ipfs://..." ya da gateway
+    bool    public soulboundMode;          // SBT açıkken transfer/approve kilidi
 
     struct Contribution {
-        string  cid;        // IPFS/gateway path
-        uint8   category;   // 0..255
-        uint8   score;      // 0..100
-        address approver;   // son onaylayan
+        string  cid;                       // IPFS path / URL
+        uint8   category;                  // 0..255
+        uint8   score;                     // 0..100
+        address approver;                  // son onaylayan (signer)
     }
-    mapping(uint256 => Contribution) private info;
+    mapping(uint256 => Contribution) public info;
 
-    // Signer nonces (separate channels)
+    // token-bazlı freeze
+    mapping(uint256 => bool) public frozen;
+
+    // imzacı nonceları (kanal ayrımı)
     mapping(address => uint256) public mintNonce;
     mapping(address => uint256) public updateNonce;
 
-    // Events
+    // arz metrikleri
+    uint256 public totalMinted;
+    uint256 public totalBurned;
+
+    // Opsiyonel EAS
+    IEAS    public eas;          // 0 ise pasif
+    bytes32 public schemaId;     // şema id
+
+    // -------- Events --------
     event ContributionMinted(uint256 indexed tokenId, address indexed to, uint8 category, uint8 score, address indexed approver, string cid);
     event ContributionUpdated(uint256 indexed tokenId, uint8 score, address indexed approver, string cid);
-    event MetadataFrozen(uint256 indexed tokenId);
     event BaseURISet(string uri);
-    event SoulboundSet(bool on);
-    event UpgradedTo(address indexed impl, address indexed by);
+    event MetadataFrozen(uint256 indexed tokenId);
+    event SoulboundToggled(bool enabled);
     // ERC-4906
     event MetadataUpdate(uint256 _tokenId);
+    event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
 
-    // EIP-712 typehash’ler
+    // -------- EIP-712 typehash’ler --------
     bytes32 public constant MINT_TYPEHASH = keccak256(
         "MintRequest(address to,string cid,uint8 category,uint8 score,uint256 nonce,uint256 deadline,address signer)"
     );
@@ -85,20 +95,18 @@ contract ContributionNFTUpgradeable is
     );
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers(); // secure impl
-    }
+    constructor() { _disableInitializers(); }
 
-    // Initialize
+    // -------- Initialize (proxy) --------
     function initialize(
         string memory name_,
         string memory symbol_,
         string memory baseURI_,
         address royaltyReceiver,
-        uint96  royaltyFee,      // ör: 500 => %5
-        address admin            // DEFAULT_ADMIN_ROLE (Timelock/Safe önerilir)
+        uint96  royaltyFee,       // ör: 500 => %5
+        address admin             // DEFAULT_ADMIN_ROLE → timelock/Gnosis önerilir
     ) public initializer {
-        if (admin == address(0)) revert BadAdmin();
+        require(admin != address(0), "admin zero");
 
         __ERC721_init(name_, symbol_);
         __ERC721Pausable_init();
@@ -107,12 +115,13 @@ contract ContributionNFTUpgradeable is
         __EIP712_init(name_, "1");
         __UUPSUpgradeable_init();
 
+        // roller
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(POLICY_ADMIN,       admin);
         _grantRole(METADATA_ADMIN,     admin);
         _grantRole(SIGNER_ROLE,        admin);
 
-        nextId = 1;
+        // baseURI + royalty
         baseURIcustom = baseURI_;
         emit BaseURISet(baseURI_);
 
@@ -120,13 +129,15 @@ contract ContributionNFTUpgradeable is
             _setDefaultRoyalty(royaltyReceiver, royaltyFee);
         }
 
-        contractVersion = 5; // v1.0.4
+        nextId = 1; // tokenId 1'den
     }
 
-    // ───────────── Admin utils ─────────────
+    // -------- Admin utils --------
     function setBaseURI(string calldata v) external onlyRole(METADATA_ADMIN) {
         baseURIcustom = v;
         emit BaseURISet(v);
+        // indexer’lar için nazik sinyal: 1..(nextId-1)
+        if (nextId > 1) emit BatchMetadataUpdate(1, nextId - 1);
     }
 
     function pause() external onlyRole(POLICY_ADMIN) { _pause(); }
@@ -134,7 +145,7 @@ contract ContributionNFTUpgradeable is
 
     function toggleSoulbound(bool on) external onlyRole(POLICY_ADMIN) {
         soulboundMode = on;
-        emit SoulboundSet(on);
+        emit SoulboundToggled(on);
     }
 
     function setDefaultRoyalty(address receiver, uint96 fee) external onlyRole(METADATA_ADMIN) {
@@ -144,22 +155,28 @@ contract ContributionNFTUpgradeable is
         _deleteDefaultRoyalty();
     }
 
-    // ───────────── Mint (EIP-712) ─────────────
+    // Opsiyonel EAS kurulumu
+    function setEAS(address eas_, bytes32 schema_) external onlyRole(POLICY_ADMIN) {
+        eas      = IEAS(eas_);
+        schemaId = schema_;
+    }
+
+    // -------- Mint (EIP-712) --------
     struct MintRequest {
         address to;
         string  cid;
         uint8   category;
         uint8   score;
-        uint256 nonce;      // uses mintNonce[signer]
+        uint256 nonce;
         uint256 deadline;
-        address signer;     // SIGNER_ROLE sahibi
+        address signer; // SIGNER_ROLE sahibi
     }
 
     function mintWithSig(MintRequest calldata req, bytes calldata sig) external whenNotPaused {
         if (req.to == address(0)) revert ZeroTo();
-        if (req.score > 100) revert BadScore();
+        if (req.score > 100)      revert BadScore();
         if (!hasRole(SIGNER_ROLE, req.signer)) revert NoSignerRole();
-        if (block.timestamp > req.deadline) revert Expired();
+        if (block.timestamp > req.deadline)    revert Expired();
         if (req.nonce != mintNonce[req.signer]) revert BadNonce();
 
         bytes32 digest = _hashTypedDataV4(
@@ -176,10 +193,12 @@ contract ContributionNFTUpgradeable is
                 )
             )
         );
-        if (!req.signer.isValidSignatureNow(digest, sig)) revert BadNonce(); // generic fail; keeps error set minimal
+        require(req.signer.isValidSignatureNow(digest, sig), "invalid sig");
 
+        // nonce tüket
         unchecked { mintNonce[req.signer] = req.nonce + 1; }
 
+        // state → sonra mint (CEI)
         uint256 tokenId = nextId++;
         info[tokenId] = Contribution({
             cid: req.cid,
@@ -189,27 +208,34 @@ contract ContributionNFTUpgradeable is
         });
 
         _safeMint(req.to, tokenId);
+        unchecked { totalMinted++; }
+
+        // Opsiyonel attestation
+        if (address(eas) != address(0) && schemaId != bytes32(0)) {
+            bytes memory data = abi.encode(tokenId, req.cid, req.category, req.score, req.signer);
+            eas.attest(schemaId, data);
+        }
 
         emit ContributionMinted(tokenId, req.to, req.category, req.score, req.signer, req.cid);
-        emit MetadataUpdate(tokenId); // ERC-4906
+        emit MetadataUpdate(tokenId);
     }
 
-    // ───────────── Update (EIP-712) ─────────────
+    // -------- Update (EIP-712) --------
     struct UpdateRequest {
         address signer;   // SIGNER_ROLE sahibi
         uint256 tokenId;
         string  cid;
         uint8   score;
-        uint256 nonce;    // uses updateNonce[signer]
+        uint256 nonce;
         uint256 deadline;
     }
 
     function updateWithSig(UpdateRequest calldata req, bytes calldata sig) external whenNotPaused {
         _requireExists(req.tokenId);
-        if (frozen[req.tokenId]) revert Frozen();
-        if (req.score > 100) revert BadScore();
+        if (frozen[req.tokenId])  revert Frozen();
+        if (req.score > 100)      revert BadScore();
         if (!hasRole(SIGNER_ROLE, req.signer)) revert NoSignerRole();
-        if (block.timestamp > req.deadline) revert Expired();
+        if (block.timestamp > req.deadline)    revert Expired();
         if (req.nonce != updateNonce[req.signer]) revert BadNonce();
 
         bytes32 digest = _hashTypedDataV4(
@@ -225,7 +251,7 @@ contract ContributionNFTUpgradeable is
                 )
             )
         );
-        if (!req.signer.isValidSignatureNow(digest, sig)) revert BadNonce();
+        require(req.signer.isValidSignatureNow(digest, sig), "invalid sig");
 
         unchecked { updateNonce[req.signer] = req.nonce + 1; }
 
@@ -233,37 +259,78 @@ contract ContributionNFTUpgradeable is
         info[req.tokenId].score    = req.score;
         info[req.tokenId].approver = req.signer;
 
+        // Opsiyonel attestation
+        if (address(eas) != address(0) && schemaId != bytes32(0)) {
+            bytes memory data = abi.encode(req.tokenId, req.cid, info[req.tokenId].category, req.score, req.signer);
+            eas.attest(schemaId, data);
+        }
+
         emit ContributionUpdated(req.tokenId, req.score, req.signer, req.cid);
-        emit MetadataUpdate(req.tokenId); // ERC-4906
+        emit MetadataUpdate(req.tokenId);
     }
 
-    // ───────────── Freeze (PAUSED iken ve per-token) ─────────────
-    function freezeMetadata(uint256 tokenId) external onlyRole(METADATA_ADMIN) whenPaused {
+    // -------- Freeze (token-bazlı, kalıcı) --------
+    // İsteğe bağlı: paused iken çağrılmasını zorunlu kılmak için whenPaused ekleyebilirsin.
+    function freezeMetadata(uint256 tokenId) external onlyRole(METADATA_ADMIN) {
         _requireExists(tokenId);
-        frozen[tokenId] = true;           // kalıcı kilit
+        frozen[tokenId] = true;
         emit MetadataFrozen(tokenId);
         emit MetadataUpdate(tokenId);
     }
 
-    // ───────────── Soulbound gates ─────────────
-    function approve(address to, uint256 tokenId) public override(ERC721Upgradeable) {
+    // -------- Approvals kapıları (SBT) --------
+    function approve(address to, uint256 tokenId) public override {
         require(!soulboundMode, "SBT: approve disabled");
         super.approve(to, tokenId);
     }
 
-    function setApprovalForAll(address operator, bool approved) public override(ERC721Upgradeable) {
+    function setApprovalForAll(address operator, bool approved) public override {
         require(!soulboundMode, "SBT: approveAll disabled");
         super.setApprovalForAll(operator, approved);
     }
 
-    // Transfer yolu (OZ 4.9): pause check ERC721Pausable’da; SBT kilidi burada kesilir.
+    // -------- Burn --------
+    function burn(uint256 tokenId) external {
+        address owner = ownerOf(tokenId);
+        // SBT açıkken sadece sahibi yakabilir
+        if (soulboundMode) {
+            require(msg.sender == owner, "SBT: only owner");
+        } else {
+            require(
+                msg.sender == owner ||
+                getApproved(tokenId) == msg.sender ||
+                isApprovedForAll(owner, msg.sender),
+                "not owner/approved"
+            );
+        }
+        _burn(tokenId);
+        unchecked { totalBurned++; }
+        emit MetadataUpdate(tokenId);
+    }
+
+    // -------- Views --------
+    function _baseURI() internal view override returns (string memory) {
+        return baseURIcustom;
+    }
+
+    function totalSupply() public view returns (uint256) {
+        return totalMinted - totalBurned;
+    }
+
+    function _requireExists(uint256 tokenId) internal view {
+        require(_ownerOf(tokenId) != address(0), "bad token");
+    }
+
+    // -------- Transfer hook (OZ 4.9) --------
+    // Pause check, ERC721Pausable’ın kendi _update’ında zaten var.
     function _update(address to, uint256 tokenId, address auth)
         internal
         override(ERC721Upgradeable, ERC721PausableUpgradeable)
         returns (address)
     {
         if (soulboundMode) {
-            address from = _ownerOf(tokenId); // internal getter
+            address from = _ownerOf(tokenId);
+            // mint/burn serbest; normal transfer yasak
             if (from != address(0) && to != address(0)) {
                 revert("SBT: transfer disabled");
             }
@@ -271,54 +338,17 @@ contract ContributionNFTUpgradeable is
         return super._update(to, tokenId, auth);
     }
 
-    // ───────────── Views / Helpers ─────────────
-    function _baseURI() internal view override returns (string memory) {
-        return baseURIcustom;
-    }
-
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        _requireExists(tokenId);
-        string memory base = _baseURI();
-        string memory cid  = info[tokenId].cid;
-        if (bytes(base).length == 0) return cid;
-        if (bytes(cid).length == 0)  return base;
-
-        bool baseEnds  = bytes(base)[bytes(base).length - 1] == "/";
-        bool cidStarts = bytes(cid).length > 0 && bytes(cid)[0] == "/";
-        if (baseEnds && cidStarts)   return string(abi.encodePacked(base, _slice1(cid)));
-        if (!baseEnds && !cidStarts) return string(abi.encodePacked(base, "/", cid));
-        return string(abi.encodePacked(base, cid));
-    }
-
-    function contribution(uint256 tokenId) external view returns (Contribution memory) {
-        _requireExists(tokenId);
-        return info[tokenId];
-    }
-
-    function _slice1(string memory s) internal pure returns (string memory) {
-        bytes memory b = bytes(s);
-        if (b.length == 0) return s;
-        bytes memory o = new bytes(b.length - 1);
-        for (uint i=1; i<b.length; i++) o[i-1] = b[i];
-        return string(o);
-    }
-
-    function _requireExists(uint256 tokenId) internal view {
-        require(_exists(tokenId), "bad token");
-    }
-
-    // ───────────── UUPS ─────────────
-    function _authorizeUpgrade(address newImpl)
+    // -------- UUPS authorize --------
+    function _authorizeUpgrade(address)
         internal
         override
         onlyRole(POLICY_ADMIN)
-    {
-        emit UpgradedTo(newImpl, msg.sender);
-    }
+    {}
 
-    // ───────────── Interfaces ─────────────
+    // -------- Interfaces --------
     function supportsInterface(bytes4 interfaceId)
-        public view
+        public
+        view
         override(ERC721Upgradeable, ERC2981Upgradeable, AccessControlUpgradeable)
         returns (bool)
     {
