@@ -1,49 +1,68 @@
-# ArcVault Contribution NFT
+ArcVault Contribution NFT
 
-**ArcVault Contribution NFT** — A contribution and reward-focused platform where on-chain contributions are represented as NFTs, designed to be secure and fully decentralized.
+ArcVault Contribution NFT — A secure, flexible, and fully upgradeable NFT infrastructure for provably representing on-chain contributions.
+Contributions are recorded with verified data and signatures, can be updated, permanently frozen, or converted into a Soulbound (non-transferable) identity badge.
 
-## Features
+⸻
 
-- **Contribution Mechanism** – Records participant contributions such as writing code, completing testnet tasks, or reporting bugs.
-- **Reward System** – Provides NFT or token rewards for verified on-chain contributions.
-- **NFT Infrastructure** – ERC-721 standard, transferable, and metadata-freezable NFTs.
-- **Security Measures** – EIP-712 signing, role-based access control, pausable transactions.
-- **Transparency** – All contributions and rewards are verifiable on-chain.
-- **Flexibility** – Extendable architecture with custom policies and dynamic role assignments.
+🚀 Key Features
+	•	Contribution Recording Mechanism
+On-chain contributions (smart contract development, testnet tasks, bug reports, etc.) are recorded using EIP-712 signatures.
+Supports both EOAs and EIP-1271 (multisig/corporate) signatures.
+	•	Reward System
+Contributions are represented as NFTs and can be integrated with token rewards or other incentives according to project policies.
+	•	Flexible NFT Infrastructure
+Fully compliant with ERC-721 standard, ERC-2981 royalty reporting, and ERC-4906 metadata update signals for indexer compatibility.
+	•	Advanced Security
+	•	Role-based Access Control (METADATA_ADMIN, POLICY_ADMIN, SIGNER_ROLE)
+	•	Pausable (emergency stop)
+	•	UUPS Upgradeable (controlled upgrades)
+	•	Per-token freeze (permanent metadata lock)
+	•	Soulbound Mode (disable transfer/approvals)
+	•	Full Transparency
+All contributions, approver addresses, category/score data, and CID links are fully queryable on-chain.
+	•	Policy Flexibility
+Dynamic role assignments and customizable signer sets make it adaptable for DAOs, enterprises, or open-source communities.
 
----
+⸻
 
-## License
+📌 Types of Contributions
 
-This project is licensed under the [MIT License](LICENSE).
-## Types of Contributions
+ArcVault can record a wide range of contributions in the ecosystem as NFTs.
 
-ArcVault records a wide variety of contributions within the ecosystem as NFTs. Examples include:
+🛠 Technical Contributions
+	•	Writing and optimizing smart contracts.
+	•	Developing and deploying decentralized applications (dApps).
+	•	Finding and fixing bugs (Bug Bounty).
+	•	Creating and running automated test suites.
+	•	Participating in testnet / mainnet feature testing.
+	•	Creating security patches and protocol upgrades.
 
-### 🛠 Technical Contributions
-- Writing and optimizing smart contracts.
-- Developing and deploying decentralized applications (dApps).
-- Reporting and fixing bugs (Bug Bounty).
-- Creating and running automated test suites.
-- Participating in testnet or mainnet feature testing.
-- Creating security patches and protocol upgrades.
+🌐 Community Contributions
+	•	Organizing events, workshops, and AMAs.
+	•	Creating educational content (technical or non-technical).
+	•	Managing official community channels.
+	•	Translating documentation.
+	•	Moderating and providing community support.
 
-### 🌐 Community Contributions
-- Organizing community events, workshops, and AMAs.
-- Writing educational articles, guides, and tutorials.
-- Managing official community channels (Discord, Telegram, Forum).
-- Translating project documentation into multiple languages.
-- Engaging in community moderation and support.
+📢 Outreach & Growth Contributions
+	•	Producing promotional videos, podcasts, and infographics.
+	•	Running marketing campaigns.
+	•	Building integrations and partnerships.
+	•	Managing and growing social media engagement.
 
-### 📢 Outreach & Growth Contributions
-- Producing promotional content (videos, podcasts, infographics).
-- Running marketing campaigns to attract new users.
-- Building partnerships and integrations with other projects.
-- Managing social media presence and engagement.
+🔍 Research & Development Contributions
+	•	Conducting protocol security audits.
+	•	Proposing governance improvements.
+	•	Contributing to ecosystem growth strategies.
+	•	Developing proof-of-concepts for new features.
+	•	Performing market analysis and user feedback reporting.
 
-### 🔍 Research & Development Contributions
-- Performing protocol security audits.
-- Proposing and implementing governance improvements.
-- Contributing to ecosystem growth strategies.
-- Creating proof-of-concepts for new features.
-- Conducting market analysis and user feedback reports.
+⸻
+
+⚖️ License
+
+This project is licensed under the MIT License.
+
+⸻
+
