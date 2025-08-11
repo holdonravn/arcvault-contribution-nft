@@ -1,3 +1,16 @@
+<p align="center">
+  <b>ArcVault Contribution NFT — Pre-launch / Testnet Only</b><br>
+  <sub>Security hardening in progress. Contracts and roles are not final.</sub>
+</p>
+
+---
+
+**Status:** Pre-launch (Testnet only)  
+**Privileged roles:** SIGNER_ROLE / POLICY_ADMIN / METADATA_ADMIN / UPGRADER_ROLE → **TBD (to be assigned via multisig + timelock before mainnet)**
+
+> ⚠️ Do not use on mainnet. No private keys, seeds, or API keys should ever be committed to this repository.
+
+
 # ArcVault Contribution NFT — v1.0.4
 
 **ArcVault Contribution NFT** — A secure, flexible, and fully upgradeable NFT infrastructure for provably representing on-chain contributions.  
