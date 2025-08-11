@@ -109,3 +109,20 @@ Contributions are recorded with verified data and EIP-712 signatures, can be upd
 📌 **Security Tip:** Use Gnosis Safe for each role with different member sets, and apply `TimelockController` (24–48h) for POLICY_ADMIN and UPGRADER_ROLE.
 
 ---
+Governance & Roles
+## Deployment
+
+### Testnet Setup
+1. Deploy contracts to {testnet name}.
+2. Assign roles using the addresses below (placeholders for testnet use only).
+
+### Roles (placeholders)
+
+> **Note:** These addresses are placeholders for testnet.  
+> Final mainnet roles will be assigned via multisig + timelock before launch.
+
+- `DEFAULT_ADMIN_ROLE`: `0x0000000000000000000000000000000000000000` (TBD)
+- `SIGNER_ROLE`: `0x0000000000000000000000000000000000000000` (TBD)
+- `POLICY_ADMIN`: `0x0000000000000000000000000000000000000000` (TBD)
+- `METADATA_ADMIN`: `0x0000000000000000000000000000000000000000` (TBD)
+- `UPGRADER_ROLE`: `0x0000000000000000000000000000000000000000` (TBD)
