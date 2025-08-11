@@ -3,7 +3,7 @@
 **Status:** Pre-launch / Testnet only. Roles, addresses, and parameters will be finalized before mainnet.
 
 ## Reporting a Vulnerability
-- Please email: **security@yourdomain.example** (or GitHub Issues with “Security” label if non-sensitive).
+- Please email: **xxx** (or GitHub Issues with “Security” label if non-sensitive).
 - Use responsible disclosure. Do not publicly disclose before we acknowledge and fix.
 - PGP (optional): TBD
 
