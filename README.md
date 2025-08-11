@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/arcvault-logo.png" alt="ArcVault Logo" width="200"/>
-</p>
-
 # ArcVault Contribution NFT (ARCV-NFT)
 
 Production-ready, upgradeable ERC-721 that turns ecosystem activity into **verifiable, on-chain reputation**.
