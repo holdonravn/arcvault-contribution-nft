@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="assets/arcvault-logo.png" alt="ArcVault Logo" width="400"/>
-</p>
 # ArcVault Contribution NFT
 
 **ArcVault Contribution NFT** — A contribution and reward-focused platform where on-chain contributions are represented as NFTs, designed to be secure and fully decentralized.
