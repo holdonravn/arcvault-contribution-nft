@@ -79,19 +79,33 @@ Contributions are recorded with verified data and EIP-712 signatures, can be upd
 
 ---
 
-## 📊 Technical Specs Table
+📊 Technical Specs Table
+| Feature           | Supported | Description                       |
+|-------------------|-----------|-----------------------------------|
+| ERC-721           | ✅         | Fully compliant                   |
+| ERC-2981          | ✅         | Royalty reporting                 |
+| ERC-4906          | ✅         | Metadata update signaling         |
+| EIP-712           | ✅         | Signed contribution & update      |
+| Soulbound Mode    | ✅         | Transfer/approval disabled        |
+| Freeze (Per Token)| ✅         | Permanent metadata lock           |
+| UUPS Upgrade      | ✅         | Controlled upgrade                 |
+| Pausable          | ✅         | Emergency stop                    |
+| EIP-1271          | ✅         | Multisig / corporate signatures   |
+| EAS Attestation   | Optional  | Off-chain verification bridge     |
 
-| Feature | Supported | Description |
-|---------|-----------|-------------|
-| ERC-721 | ✅ | Fully compliant |
-| ERC-2981 | ✅ | Royalty reporting |
-| ERC-4906 | ✅ | Metadata update signaling |
-| EIP-712 | ✅ | Signed contribution & update |
-| Soulbound Mode | ✅ | Transfer/approval disabled |
-| Freeze (Per Token) | ✅ | Permanent metadata lock |
-| UUPS Upgrade | ✅ | Controlled upgrade |
-| Pausable | ✅ | Emergency stop |
-| EIP-1271 | ✅ | Multisig / corporate signatures |
-| EAS Attestation | Optional | Off-chain verification bridge |
+---
+
+## 🚀 Deployment / Roles (Placeholder)
+
+> **Note:** These addresses are placeholders for pre-launch/testnet only. Replace with actual addresses before mainnet deployment.
+
+| Role              | Address (Placeholder)       | Description |
+|-------------------|-----------------------------|-------------|
+| `SIGNER_ROLE`     | `0x0000000000000000000000000000000000000000` | Signs verified contributions (multisig recommended, no timelock). |
+| `POLICY_ADMIN`    | `0x0000000000000000000000000000000000000000` | Controls pause/SBT toggle; assign to a multisig with timelock. |
+| `METADATA_ADMIN`  | `0x0000000000000000000000000000000000000000` | Can update metadata before freeze; lower threshold multisig possible. |
+| `UPGRADER_ROLE`   | `0x0000000000000000000000000000000000000000` | Controls contract upgrades; separate from policy admin. |
+
+📌 **Security Tip:** Use Gnosis Safe for each role with different member sets, and apply `TimelockController` (24–48h) for POLICY_ADMIN and UPGRADER_ROLE.
 
 ---
