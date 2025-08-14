@@ -47,15 +47,6 @@ This policy covers:
 
 ---
 
-## 🎁 Bounty Policy
-
-| Stage        | Reward Model                         |
-|--------------|---------------------------------------|
-| 🔧 Testnet    | Community recognition (best effort)  |
-| 🚀 Mainnet    | Full bug bounty program (TBD)        |
-
----
-
 ## 🚫 Known Non-Issues
 
 - Testnet contracts may be upgraded or redeployed at any time.
