@@ -1,4 +1,16 @@
 <p align="center">
+  <h1>ArcVault Contribution NFT <sub><code>v1.0.4 – Testnet Only</code></sub></h1>
+  <i>Secure & Upgradeable NFT Infra for On-Chain Contribution Recognition</i>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/status-Testnet_Only-orange">
+  <img src="https://img.shields.io/badge/license-MIT-green">
+  <img src="https://img.shields.io/badge/security-Hardening_in_progress-red">
+</p>
+
+> ⚠️ Do not use on mainnet. No private keys, seeds, or API keys should ever be committed to this repository.
+<p align="center">
   <b>ArcVault Contribution NFT — Pre-launch / Testnet Only</b><br>
   <sub>Security hardening in progress. Contracts and roles are not final.</sub>
 </p>
