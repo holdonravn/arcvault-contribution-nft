@@ -126,3 +126,11 @@ Governance & Roles
 - `POLICY_ADMIN`: `0x0000000000000000000000000000000000000000` (TBD)
 - `METADATA_ADMIN`: `0x0000000000000000000000000000000000000000` (TBD)
 - `UPGRADER_ROLE`: `0x0000000000000000000000000000000000000000` (TBD)
+- ## CI / Security
+- Every PR runs tests, coverage and Slither static analysis (see `.github/workflows/ci.yml`).
+- No secrets in repo: use `.env` (testnet only). See `SECURITY.md` for disclosure policy.
+
+## Examples
+- EIP-712 signing snippets in `examples/`:
+  - `sign-mint.ts` → produce `signature` + payload for `mintWithSig`
+  - `sign-update.ts` → produce `signature` + payload for `updateWithSig`
