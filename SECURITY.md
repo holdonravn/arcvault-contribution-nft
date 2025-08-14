@@ -1,61 +1,89 @@
-# Security Policy — ArcVault Contribution NFT (Pre-launch / Testnet Only)
+# 🛡️ Security Policy — ArcVault Contribution NFT (v1.0.4 – Testnet Only)
 
-**Status:** Pre-launch / Testnet only  
-Roles, addresses, and parameters will be finalized before mainnet deployment.
+![Status](https://img.shields.io/badge/status-Testnet_Only-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Security](https://img.shields.io/badge/security-Hardening_in_progress-red)
+
+> ⚠️ This repository is intended for **testnet and pre-launch use only**.  
+> Contracts, roles, and addresses are not final and will be updated before mainnet deployment.
 
 ---
 
 ## 📌 Reporting a Vulnerability
-If you believe you have found a security vulnerability in this project:
 
-1. **Do not** create a public GitHub issue for sensitive findings.
-2. Please email: **[tayfunmalatyali@gmail.com]**  
-   _(or open a GitHub Issue with the “Security” label for non-sensitive issues)_
-3. Use responsible disclosure — do not publicly share details until we have acknowledged and fixed the issue.
-4. Optional: Use PGP encryption for secure communication (TBD).
+If you believe you have found a vulnerability in this project:
 
-**Response targets:**
-- **Acknowledge:** within 72 hours
-- **Patch critical issues:** within 14 days (best effort)
+1. **Do NOT** open a public GitHub issue for critical or sensitive bugs.
+2. Instead, contact us privately via email:  
+   ✉️ **[tayfunmalatyali@gmail.com](mailto:tayfunmalatyali@gmail.com)**
+3. Alternatively, for low-severity issues, you may open a GitHub issue using the **"Security"** label.
+4. Please use responsible disclosure. Do not share details publicly until the issue has been confirmed and patched.
+5. **PGP encryption support is coming soon.**
 
 ---
 
-## 📂 Scope
-This policy applies to:
-- All contracts in the `contracts/` directory
-- Deployment configurations (testnet only at this stage)
+## 🕒 Response Targets
 
-**Out of scope:**
-- Front-end applications
-- Off-chain services (relayers, bots, APIs)
-- Third-party infrastructure (RPC, explorers, indexers)
+| Action             | Timeframe       |
+|--------------------|-----------------|
+| 🔔 Acknowledge Bug | Within 72 hours |
+| 🔧 Critical Patch  | Within 14 days  |
 
 ---
 
-## 🎁 Bounties
-- **Pre-launch:** goodwill recognition for responsible disclosures
-- **Post-launch:** formal bug bounty program (TBD)
+## 📂 Scope of Policy
+
+This policy covers:
+
+- ✅ Smart contracts in the `contracts/` directory
+- ✅ Hardhat configurations used for deployment
+- ✅ Testnet-specific security assumptions
+
+❌ Out of Scope:
+
+- ❌ Front-end apps (React, Next.js, etc.)
+- ❌ Off-chain services (relayers, bots, APIs)
+- ❌ 3rd-party infra (RPC, indexers, Graph, explorers)
+
+---
+
+## 🎁 Bounty Policy
+
+| Stage        | Reward Model                         |
+|--------------|---------------------------------------|
+| 🔧 Testnet    | Community recognition (best effort)  |
+| 🚀 Mainnet    | Full bug bounty program (TBD)        |
 
 ---
 
 ## 🚫 Known Non-Issues
-- Testnet deployments may be upgraded or redeployed without notice.
-- Role assignments, addresses, and parameters are placeholders until mainnet.
+
+- Testnet contracts may be upgraded or redeployed at any time.
+- Roles and multisigs are **placeholders** during testnet.
+- Metadata and contract structure may change before launch.
 
 ---
 
-## 🏛 Governance & Change Control (Pre-launch)
-- **Multisig + Timelock** will be enforced before mainnet deployment.
-- Privileged roles are placeholders on testnet and will be replaced with final multisig addresses.
+## 🏛 Governance & Upgrade Policy
+
+- Mainnet contracts will use **Gnosis Safe** with **TimelockController (24–48h)**.
+- All privileged roles (`SIGNER`, `UPGRADER`, `POLICY_ADMIN`, `METADATA_ADMIN`) will be assigned to multisigs.
 
 ---
 
-## 📅 Best Effort SLAs
-- **Acknowledgement:** within 72 hours
-- **Triage & patch:** aim to resolve critical issues in ≤14 days
+## 🔒 User Security Tips
+
+- Never share private keys, seed phrases, or access tokens.
+- Only use contracts verified from the official GitHub and block explorer links.
+- For multisig admins, use Gnosis Safe with appropriate threshold settings.
+- Always verify that `.env` and `secrets` files are excluded from Git via `.gitignore`.
 
 ---
 
-⚠ **Disclaimer:**  
-This repository is for **testnet/pre-launch experimentation only**.  
-Do not use in production or mainnet environments.
+## 📬 Contact
+
+📧 [tayfunmalatyali@gmail.com](mailto:tayfunmalatyali@gmail.com)  
+🔒 PGP support: _Coming Soon_  
+🌐 GitHub Issues: use the `Security` label for minor/public bugs.
+
+---
