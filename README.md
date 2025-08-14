@@ -134,3 +134,8 @@ Governance & Roles
 - EIP-712 signing snippets in `examples/`:
   - `sign-mint.ts` → produce `signature` + payload for `mintWithSig`
   - `sign-update.ts` → produce `signature` + payload for `updateWithSig`
+ 
+  - ## 🤝 Contributing
+
+We welcome contributions from everyone!  
+Please read our [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request.
