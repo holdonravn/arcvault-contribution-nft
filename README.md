@@ -23,12 +23,36 @@
 > ⚠️ Do not use on mainnet. No private keys, seeds, or API keys should ever be committed to this repository.
 
 
-# ArcVault Contribution NFT — v1.0.4
+📍 Why / Use Case
 
-**ArcVault Contribution NFT** — A secure, flexible, and fully upgradeable NFT infrastructure for provably representing on-chain contributions.  
-Contributions are recorded with verified data and EIP-712 signatures, can be updated, permanently frozen, or converted into a **Soulbound** (non-transferable) identity badge.
+### Why ArcVault Contribution NFT?
+Traditional methods of recognizing open-source or community contributions—such as off-chain leaderboards, forum posts, or centralized badges—are non-verifiable, easily manipulated, and rarely portable across projects or ecosystems. ArcVault Contribution NFT solves this problem by turning every meaningful on-chain or off-chain contribution into a secure, upgradeable, and verifiable NFT badge backed by cryptographic proof.
+
+With ArcVault, individual contributors, DAOs, enterprises, and developer communities can transparently track, verify, and reward all forms of contributions—code, security, research, community building, outreach—on any EVM-compatible chain.
 
 ---
+
+### Use Cases
+
+- **Open Source DAOs & Protocols:**  
+Reward developers and active community members with non-transferable (Soulbound) NFTs that represent unique, verifiable contributions—such as deploying new features, fixing bugs, or auditing code.
+
+- **Enterprise & Team Environments:**  
+Issue digitally signed, immutable contribution records for employees or external collaborators, making performance reviews, bounties, and team reputation portable and tamper-proof.
+
+- **Event and Community Recognition:**  
+Distribute NFT-based badges for hackathon participation, event organization, public speaking, technical writing, or ambassador programs that remain provable and updatable over time.
+
+- **Growth Campaigns & Ambassadorships:**  
+Track marketing, outreach, or onboarding contributions—including content creation, social media activity, or partnership formation—each recorded and verified on-chain.
+
+- **Reputation and Attestation:**  
+Integrate with on-chain governance or attestation protocols to leverage verifiable contribution history for voting rights, incentives, or access control within DAOs.
+
+---
+
+**In summary:**  
+ArcVault is the missing, secure, and upgradeable layer for turning any on-chain or off-chain contribution into a portable, provable achievement that strengthens your project’s transparency, reputation, and incentives.
 
 ## 🚀 Key Features
 
