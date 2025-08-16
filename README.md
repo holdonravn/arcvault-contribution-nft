@@ -191,3 +191,9 @@ This project is licensed under the [MIT License](./LICENSE).
 >
 > Public use of this code or its derivatives must provide clear and visible credit to  
 > [Tayfun Malatyalı](https://github.com/holdonravn).
+
+
+> 💡 **Important Note:**  
+> ArcVault is currently a research and infrastructure initiative.  
+> There is **no active bounty or token reward program** at this stage.  
+> Future contribution-based recognition mechanisms may be considered as part of governance processes.
