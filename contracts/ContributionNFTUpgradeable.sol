@@ -1,16 +1,34 @@
 // SPDX-License-Identifier: MIT
-// Author: Tayfun Malatyalı (github.com/holdonravn)
+// ArcVault Contribution NFT – v1.0.4
+//
+// 🛑 WARNING: This contract is NOT production-ready.
+// It is strictly intended for testing, research, and educational purposes only.
+// Do NOT deploy on mainnet or use with real assets.
+// No warranty, guarantees, or support is provided.
+//
+// 📌 Purpose:
+// This smart contract is part of the ArcVault Contribution NFT protocol, designed to
+// recognize on-chain and off-chain contributions via verifiable and upgradeable NFTs.
+// All contributions are experimental and non-binding.
+//
+// 👤 Attribution:
+// Created by: HoldOnRavn (github.com/holdonravn)
+// License: MIT — use, modify, and distribute freely with attribution.
+// See full license terms in LICENSE file.
+//
+// 📬 Contact for Security Issues:
+// Reach out via private contact listed in SECURITY.md
+// Never disclose sensitive issues publicly before confirmation and patch.
+//
+// 🔒 Summary:
+// - Testnet only
+– Not audited
+– No tokens, rewards, or liabilities
+– Subject to change before mainnet
 
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/*
-  ArcVault Contribution NFT — Final (Upgradeable, EIP-712, Per-token Freeze, SBT Gate)
-  - OpenZeppelin 4.9.5 (upgradeable) imports pinned by tag for Remix stability
-  - UUPS upgradeable, role-based access, EIP-712 mint/update (EOA + ERC-1271)
-  - Per-token freeze (hard lock), optional Soulbound mode (transfer/approvals off)
-  - ERC-2981 royalty + ERC-4906 metadata update signals
-*/
+// ... your contract code starts here
 
 // ───────── OZ Upgradeable imports (v4.9.5) ─────────
 import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.9.5/contracts/proxy/utils/Initializable.sol";
@@ -391,3 +409,4 @@ contract ContributionNFTUpgradeable is
     }
 }
 This is not a production-ready contract
+// This contract is developed under the identity "HoldOnRavn" for public good and testing purposes.
