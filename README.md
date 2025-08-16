@@ -182,3 +182,12 @@ We welcome contributions from everyone — developers, researchers, designers, p
 > However, depending on the project's evolution and governance, **retroactive recognition or future contribution-based mechanisms may be introduced**.
 
 Please read our [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request.
+
+## 🛡 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+> **Copyright © 2025 Tayfun Malatyalı**
+>
+> Public use of this code or its derivatives must provide clear and visible credit to  
+> [Tayfun Malatyalı](https://github.com/holdonravn).
