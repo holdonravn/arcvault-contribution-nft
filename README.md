@@ -171,7 +171,14 @@ Governance & Roles
   - `sign-mint.ts` → produce `signature` + payload for `mintWithSig`
   - `sign-update.ts` → produce `signature` + payload for `updateWithSig`
  
-  - ## 🤝 Contributing
+  ---
 
-We welcome contributions from everyone!  
+## 🤝 Contributing
+
+We welcome contributions from everyone — developers, researchers, designers, product managers, documentation writers, and ecosystem builders.
+
+> 💡 **Important Note:**  
+> There is currently **no guaranteed reward program** for contributors.  
+> However, depending on the project's evolution and governance, **retroactive recognition or future contribution-based mechanisms may be introduced**.
+
 Please read our [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request.
