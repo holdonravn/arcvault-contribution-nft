@@ -183,16 +183,6 @@ We welcome contributions from everyone — developers, researchers, designers, p
 
 Please read our [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request.
 
-## 🛡 License
-
-This project is licensed under the [MIT License](./LICENSE).
-
-> **Copyright © 2025 Tayfun Malatyalı**
->
-> Public use of this code or its derivatives must provide clear and visible credit to  
-> [Tayfun Malatyalı](https://github.com/holdonravn).
-
-
 > 💡 **Important Note:**  
 > ArcVault is currently a research and infrastructure initiative.  
 > There is **no active bounty or token reward program** at this stage.  
