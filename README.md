@@ -187,3 +187,20 @@ Please read our [Contributing Guide](.github/CONTRIBUTING.md) before making a pu
 > ArcVault is currently a research and infrastructure initiative.  
 > There is **no active bounty or token reward program** at this stage.  
 > Future contribution-based recognition mechanisms may be considered as part of governance processes.
+
+🛡️ Developer Disclaimer
+
+No Warranty, No Obligation, No Rewards Promise
+
+This project is published under the identity of HoldOnRavn for experimental and educational purposes only. It is currently in a testnet-only phase. All smart contracts, contribution scoring models, and role assignments are subject to change and should not be considered final or production-ready.
+
+🚫 No Guarantee of Rewards or Support
+	•	There is no guarantee of tokens, airdrops, retroactive rewards, or any form of compensation.
+	•	All contributions are voluntary.
+	•	There is no obligation to continue development, maintenance, or launch any commercial token.
+	•	The software is provided “as is”, with no warranty of any kind (see LICENSE).
+
+⚠️ Liability and Attribution
+	•	While the GitHub user holdonravn maintains the repository,
+there is no legal, financial, or custodial responsibility assumed for derivative projects, forks, or unauthorized use.
+	•	Usage of this repository’s code in public or private environments must include proper attribution as specified in the MIT License.
