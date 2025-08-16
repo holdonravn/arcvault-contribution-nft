@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: MIT
+// Author: Tayfun Malatyalı (github.com/holdonravn)
+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 /*
@@ -7,7 +10,6 @@ pragma solidity ^0.8.20;
   - UUPS upgradeable, role-based access, EIP-712 mint/update (EOA + ERC-1271)
   - Per-token freeze (hard lock), optional Soulbound mode (transfer/approvals off)
   - ERC-2981 royalty + ERC-4906 metadata update signals
-  - Governance-ready: DEFAULT_ADMIN must be a contract (Gnosis Safe / Timelock)
 */
 
 // ───────── OZ Upgradeable imports (v4.9.5) ─────────
@@ -48,7 +50,6 @@ contract ContributionNFTUpgradeable is
     error Expired();
     error NoSignerRole();
     error Frozen();
-    error AdminMustBeContract();
 
     // ───────── Storage ─────────
     uint256 public nextId;                 // token ids (starts from 1)
@@ -98,9 +99,6 @@ contract ContributionNFTUpgradeable is
     event SoulboundToggled(bool enabled);
     event MetadataFrozen(uint256 indexed tokenId);
 
-    // Governance
-    event GovernanceAdminSet(address indexed admin);
-
     // ERC-4906 signals
     event MetadataUpdate(uint256 _tokenId);
     event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
@@ -125,9 +123,9 @@ contract ContributionNFTUpgradeable is
         string memory baseURI_,
         address royaltyReceiver,
         uint96  royaltyFee,     // e.g. 500 = 5%
-        address admin           // MUST be Gnosis Safe / Timelock (contract)
+        address admin           // DEFAULT_ADMIN_ROLE (Timelock/Safe recommended)
     ) public initializer {
-        if (admin == address(0) || admin.code.length == 0) revert AdminMustBeContract();
+        require(admin != address(0), "admin=0");
 
         __ERC721_init(name_, symbol_);
         __ERC721Pausable_init();
@@ -136,7 +134,7 @@ contract ContributionNFTUpgradeable is
         __EIP712_init(name_, "1");
         __UUPSUpgradeable_init();
 
-        // Roles → all guarded by multisig/timelock admin
+        // Roles
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(POLICY_ADMIN,       admin);
         _grantRole(METADATA_ADMIN,     admin);
@@ -146,7 +144,6 @@ contract ContributionNFTUpgradeable is
         nextId = 1;
         baseURIcustom = baseURI_;
         emit BaseURISet(baseURI_);
-        emit GovernanceAdminSet(admin);
 
         if (royaltyReceiver != address(0)) {
             _setDefaultRoyalty(royaltyReceiver, royaltyFee);
@@ -233,8 +230,10 @@ contract ContributionNFTUpgradeable is
         );
         require(req.signer.isValidSignatureNow(digest, sig), "invalid sig");
 
+        // consume nonce
         unchecked { mintNonce[req.signer] = req.nonce + 1; }
 
+        // CEI: write first
         uint256 tokenId = nextId++;
         info[tokenId] = Contribution({
             cid: req.cid,
@@ -243,6 +242,7 @@ contract ContributionNFTUpgradeable is
             approver: req.signer
         });
 
+        // mint
         _safeMint(req.to, tokenId);
         totalMinted += 1;
 
@@ -274,15 +274,17 @@ contract ContributionNFTUpgradeable is
 
         unchecked { updateNonce[req.signer] = req.nonce + 1; }
 
+        // apply update
         info[req.tokenId].cid      = req.cid;
         info[req.tokenId].score    = req.score;
         info[req.tokenId].approver = req.signer;
 
         emit ContributionUpdated(req.tokenId, req.score, req.signer, req.cid);
-        emit MetadataUpdate(req.tokenId);
+        emit MetadataUpdate(req.tokenId); // ERC-4906
     }
 
     // ───────── Per-token hard freeze ─────────
+    // Policy choice: require pause to freeze (gives community a visible window)
     function freezeMetadata(uint256 tokenId) external onlyRole(METADATA_ADMIN) whenPaused {
         _requireExists(tokenId);
         frozen[tokenId] = true;
