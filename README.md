@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/logo.png" width="160" alt="ArcVault Logo">
+  <img src="./logo.png" width="160" alt="ArcVault Logo">
 </p>
 
 <p align="center">
