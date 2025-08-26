@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="./assets/logo.png" width="160" alt="ArcVault Logo">
+</p>
+
+<p align="center">
   <h1>ArcVault Contribution NFT <sub><code>v1.0.4 – Testnet Only</code></sub></h1>
   <i>Secure & Upgradeable NFT Infra for On-Chain Contribution Recognition</i>
 </p>
@@ -10,6 +14,7 @@
 </p>
 
 > ⚠️ Do not use on mainnet. No private keys, seeds, or API keys should ever be committed to this repository.
+
 <p align="center">
   <b>ArcVault Contribution NFT — Pre-launch / Testnet Only</b><br>
   <sub>Security hardening in progress. Contracts and roles are not final.</sub>
@@ -20,7 +25,7 @@
 **Status:** Pre-launch (Testnet only)  
 **Privileged roles:** SIGNER_ROLE / POLICY_ADMIN / METADATA_ADMIN / UPGRADER_ROLE → **TBD (to be assigned via multisig + timelock before mainnet)**
 
-> ⚠️ Do not use on mainnet. No private keys, seeds, or API keys should ever be committed to this repository.
+---
 
 ## 📍 Why / Use Case
 
@@ -32,21 +37,11 @@ With ArcVault, individual contributors, DAOs, enterprises, and developer communi
 ---
 
 ### Use Cases
-
-- **Open Source DAOs & Protocols:**  
-  Reward developers and active community members with non-transferable (Soulbound) NFTs that represent unique, verifiable contributions—such as deploying new features, fixing bugs, or auditing code.
-
-- **Enterprise & Team Environments:**  
-  Issue digitally signed, immutable contribution records for employees or external collaborators, making performance reviews, bounties, and team reputation portable and tamper-proof.
-
-- **Event and Community Recognition:**  
-  Distribute NFT-based badges for hackathon participation, event organization, public speaking, technical writing, or ambassador programs that remain provable and updatable over time.
-
-- **Growth Campaigns & Ambassadorships:**  
-  Track marketing, outreach, or onboarding contributions—including content creation, social media activity, or partnership formation—each recorded and verified on-chain.
-
-- **Reputation and Attestation:**  
-  Integrate with on-chain governance or attestation protocols to leverage verifiable contribution history for voting rights, incentives, or access control within DAOs.
+- **Open Source DAOs & Protocols:** Reward developers and active community members with non-transferable (Soulbound) NFTs that represent unique, verifiable contributions.  
+- **Enterprise & Team Environments:** Issue digitally signed, immutable contribution records for employees or external collaborators.  
+- **Event and Community Recognition:** Distribute NFT-based badges for hackathon participation, event organization, public speaking, or ambassador programs.  
+- **Growth Campaigns & Ambassadorships:** Track marketing, outreach, or onboarding contributions on-chain.  
+- **Reputation and Attestation:** Integrate verifiable contribution history for governance, voting rights, incentives, or access control.  
 
 ---
 
@@ -57,66 +52,45 @@ ArcVault is the missing, secure, and upgradeable layer for turning any on-chain 
 
 ## 🚀 Key Features
 
-### Contribution Recording Mechanism
-- On-chain contribution records using EIP-712 signatures.
-- Supports both EOAs and EIP-1271 (multisig / corporate) signatures.
-
-### Reward System
-- Contributions are represented as NFTs.
-- Can be integrated with token rewards or other incentive mechanisms.
-
-### Flexible NFT Infrastructure
-- Fully ERC-721 compliant  
-- ERC-2981 (royalty reporting)  
-- ERC-4906 (metadata update signaling)
-
-### Advanced Security
-- Role-based Access Control (POLICY_ADMIN, METADATA_ADMIN, SIGNER_ROLE)  
-- Pausable (emergency stop)  
-- UUPS Upgradeable (controlled upgrades)  
-- Per-token freeze (permanent metadata lock)  
-- Soulbound Mode (disable transfer/approvals)
-
-### Full Transparency
-- All contribution data (approver address, category, score, CID) is fully queryable on-chain.
-
-### Policy Flexibility
-- Dynamic role assignments
-- Customizable signer sets
-- Adaptable for DAOs, enterprises, or open-source communities
+- **Contribution Recording Mechanism:** On-chain contribution records using EIP-712 signatures; supports EOAs + EIP-1271.  
+- **Reward System:** Contributions represented as NFTs; compatible with incentives or token rewards.  
+- **Flexible NFT Infrastructure:** ERC-721, ERC-2981 (royalty), ERC-4906 (metadata updates).  
+- **Advanced Security:** Role-based access control, pausable, UUPS upgradeable, per-token freeze, Soulbound mode.  
+- **Full Transparency:** All contribution data (approver, category, score, CID) queryable on-chain.  
+- **Policy Flexibility:** Dynamic role assignments; customizable signer sets.  
 
 ---
 
 ## 📌 Types of Contributions
 
 ### 🛠 Technical Contributions
-- Writing and optimizing smart contracts
-- Developing and deploying dApps
-- Bug bounties and security patches
-- Testnet / mainnet feature testing
-- Protocol upgrades
+- Smart contract development & optimization  
+- dApp deployment  
+- Bug bounties & security patches  
+- Testnet / mainnet testing  
+- Protocol upgrades  
 
 ### 🌐 Community Contributions
-- Organizing events, workshops, and AMAs
-- Creating educational content (technical or non-technical)
-- Managing official community channels
-- Translating documentation, moderation
+- Organizing events, workshops, AMAs  
+- Creating educational content  
+- Managing community channels  
+- Translating documentation  
 
 ### 📢 Outreach & Growth
-- Producing videos, podcasts, infographics
-- Running marketing campaigns
-- Building integrations and partnerships
-- Managing social media growth
+- Videos, podcasts, infographics  
+- Marketing campaigns  
+- Partnerships & integrations  
+- Social media growth  
 
 ### 🔍 Research & Development
-- Conducting security audits
-- Proposing governance improvements
-- Designing ecosystem growth strategies
-- Market analysis and user feedback reports
+- Security audits  
+- Governance improvements  
+- Ecosystem strategy design  
+- Market/user research  
 
 ---
 
-## 📊 Technical Specs Table
+## 📊 Technical Specs
 
 | Feature           | Supported | Description                       |
 |-------------------|-----------|-----------------------------------|
@@ -140,67 +114,89 @@ ArcVault is the missing, secure, and upgradeable layer for turning any on-chain 
 | Role              | Address (Placeholder)       | Description |
 |-------------------|-----------------------------|-------------|
 | `SIGNER_ROLE`     | `0x0000000000000000000000000000000000000000` | Signs verified contributions (multisig recommended). |
-| `POLICY_ADMIN`    | `0x0000000000000000000000000000000000000000` | Controls pause/SBT toggle; assign to a multisig with timelock. |
-| `METADATA_ADMIN`  | `0x0000000000000000000000000000000000000000` | Can update metadata before freeze; lower threshold multisig possible. |
-| `UPGRADER_ROLE`   | `0x0000000000000000000000000000000000000000` | Controls contract upgrades; separate from policy admin. |
+| `POLICY_ADMIN`    | `0x0000000000000000000000000000000000000000` | Controls pause/SBT toggle; assign to multisig + timelock. |
+| `METADATA_ADMIN`  | `0x0000000000000000000000000000000000000000` | Can update metadata before freeze. |
+| `UPGRADER_ROLE`   | `0x0000000000000000000000000000000000000000` | Controls contract upgrades. |
 
-📌 **Security Tip:** Use Gnosis Safe for each role with different member sets, and apply `TimelockController` (24–48h) for POLICY_ADMIN and UPGRADER_ROLE.
+📌 **Security Tip:** Use Gnosis Safe multisigs with `TimelockController` (24–48h) for POLICY_ADMIN & UPGRADER_ROLE.
 
 ---
 
 ## 🧪 Deployment
 
 ### Testnet Setup
-1. Deploy contracts to desired EVM testnet.
-2. Assign roles using the placeholder addresses above.
+1. Deploy contracts to desired EVM testnet.  
+2. Assign roles using placeholder addresses above.  
 
 ---
 
 ## 🧩 CI / Security
 
-- Every PR runs tests, coverage and Slither static analysis (`.github/workflows/ci.yml`).
-- No secrets in repo: use `.env` (testnet only).
-- See `SECURITY.md` for responsible disclosure policy.
+- PRs run tests, coverage & Slither static analysis.  
+- No secrets in repo; use `.env` (testnet only).  
+- See `SECURITY.md` for disclosure policy.  
 
 ---
 
 ## 🧾 Examples
 
-EIP-712 signing snippets in `examples/`:
-
-- `sign-mint.ts` → produce `signature` + payload for `mintWithSig`
-- `sign-update.ts` → produce `signature` + payload for `updateWithSig`
+EIP-712 signing snippets in `examples/`:  
+- `sign-mint.ts` → payload for `mintWithSig`  
+- `sign-update.ts` → payload for `updateWithSig`  
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions from everyone — developers, researchers, designers, product managers, documentation writers, and ecosystem builders.
+We welcome contributions from developers, researchers, designers, PMs, writers, and ecosystem builders.  
+Please read our [Contributing Guide](.github/CONTRIBUTING.md) before PRs.  
 
-> 💡 **Important Note:**  
-> There is currently **no guaranteed reward program** for contributors.  
-> However, depending on the project's evolution and governance, **retroactive recognition or future contribution-based mechanisms may be introduced**.
+---
 
-Please read our [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request.
+🛡️ **Developer Disclaimer**  
+This project is for research/educational purposes only. Testnet-only. Contracts, scoring models, and role assignments may change.  
 
-> 💡 **Important Note:**  
-> ArcVault is currently a research and infrastructure initiative.  
-> There is **no active bounty or token reward program** at this stage.  
-> Future contribution-based recognition mechanisms may be considered as part of governance processes.
+🚫 **No Guarantee of Rewards/Support**  
+- No guaranteed tokens, airdrops, or compensation.  
+- Contributions are voluntary.  
+- No obligation for development, maintenance, or launch.  
+- Provided “as is” (see LICENSE).  
 
-🛡️ Developer Disclaimer
+⚠️ **Liability & Attribution**  
+- Maintainer assumes no legal/financial responsibility for forks or unauthorized use.  
+- Use must include attribution under MIT License.
 
-No Warranty, No Obligation, No Rewards Promise
+  ---
 
-This project is published under the identity of HoldOnRavn for experimental and educational purposes only. It is currently in a testnet-only phase. All smart contracts, contribution scoring models, and role assignments are subject to change and should not be considered final or production-ready.
+## ⚖️ Legal Disclaimer
 
-🚫 No Guarantee of Rewards or Support
-	•	There is no guarantee of tokens, airdrops, retroactive rewards, or any form of compensation.
-	•	All contributions are voluntary.
-	•	There is no obligation to continue development, maintenance, or launch any commercial token.
-	•	The software is provided “as is”, with no warranty of any kind (see LICENSE).
+This repository and its associated smart contracts, code, documentation, or related materials are provided strictly for **research and educational purposes only**.  
 
-⚠️ Liability and Attribution
-	•	While the GitHub user holdonravn maintains the repository,
-there is no legal, financial, or custodial responsibility assumed for derivative projects, forks, or unauthorized use.
-	•	Usage of this repository’s code in public or private environments must include proper attribution as specified in the MIT License.
+By accessing, forking, deploying, or otherwise using this repository, you agree to the following terms:
+
+1. **No Investment Contract**  
+   - Nothing in this repository, its code, or related discussions constitutes an investment contract, security, or financial instrument.  
+   - No party should interpret the publication of this code as a solicitation for investment, financial advice, or a guarantee of future value.  
+
+2. **No Warranty / Liability**  
+   - The code is provided *“AS IS”*, without warranty of any kind.  
+   - The maintainers assume **no responsibility** for damages, data loss, vulnerabilities, exploits, or any misuse.  
+   - Users bear **full risk and liability** for any deployment, integration, or derivative work.  
+
+3. **No Rewards, No Obligations**  
+   - There is no guarantee of tokens, airdrops, retroactive rewards, or compensation of any form.  
+   - Contributions to this repository are entirely voluntary and do not create any contractual rights or obligations.  
+   - The maintainers may pause, discontinue, or terminate the project at any time without notice or liability.  
+
+4. **Jurisdiction & Applicable Law**  
+   - This repository and its maintainers do not assume legal responsibility in any jurisdiction.  
+   - Any claims or disputes must be resolved under the principles of **applicable open-source licensing (MIT)**.  
+
+5. **Attribution Requirement**  
+   - Any usage, deployment, or derivative work must include clear attribution to the original author(s) as specified in the MIT License.  
+   - Misrepresentation, plagiarism, or unauthorized branding of this code is strictly prohibited.  
+
+---
+
+**Summary:**  
+Use at your own risk. No warranty, no guarantee of rewards, no financial responsibility. This is a research/educational repository, not a commercial product or investment vehicle.
