@@ -78,3 +78,16 @@ This policy covers:
 🌐 GitHub Issues: use the `Security` label for minor/public bugs.
 
 ---
+### Disclaimer
+
+ArcVault is an independent, open-source prototype **built on top of Ethereum’s public smart contract infrastructure.**  
+It aims to provide a modular **Proof-of-Contribution layer** via NFTs and contribution mapping.
+
+This project:
+- Does NOT claim official affiliation with Ethereum Foundation.
+- Credits Ethereum as the base layer.
+- Is created purely for educational and exploratory purposes, without monetization.
+
+Ethereum inspires modular innovation — ArcVault reflects one possible extension of that vision.
+
+Explore Ethereum: https://ethereum.org
