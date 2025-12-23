@@ -196,7 +196,8 @@ By accessing, forking, deploying, or otherwise using this repository, you agree 
    - Any usage, deployment, or derivative work must include clear attribution to the original author(s) as specified in the MIT License.  
    - Misrepresentation, plagiarism, or unauthorized branding of this code is strictly prohibited.  
 
----
+Freeze guarantees metadata immutability within the current implementation;
+upgrades are governed by explicit multisig + timelock policies.
 
 **Summary:**  
 Use at your own risk. No warranty, no guarantee of rewards, no financial responsibility. This is a research/educational repository, not a commercial product or investment vehicle.
