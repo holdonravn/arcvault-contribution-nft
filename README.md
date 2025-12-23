@@ -199,5 +199,10 @@ By accessing, forking, deploying, or otherwise using this repository, you agree 
 Freeze guarantees metadata immutability within the current implementation;
 upgrades are governed by explicit multisig + timelock policies.
 
+Contribution scoring is intentionally subjective and policy-defined;
+ArcVault does not claim objective reputation measurement.
+
+Soulbound mode is configurable per deployment and not enforced globally.
+
 **Summary:**  
 Use at your own risk. No warranty, no guarantee of rewards, no financial responsibility. This is a research/educational repository, not a commercial product or investment vehicle.
