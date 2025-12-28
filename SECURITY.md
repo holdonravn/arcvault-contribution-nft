@@ -15,7 +15,7 @@ If you believe you have found a vulnerability in this project:
 
 1. **Do NOT** open a public GitHub issue for critical or sensitive bugs.
 2. Instead, contact us privately via email:  
-   ✉️ **x/holdonravn**
+   ✉️ **x/aidenravn
 3. Alternatively, for low-severity issues, you may open a GitHub issue using the **"Security"** label.
 4. Please use responsible disclosure. Do not share details publicly until the issue has been confirmed and patched.
 5. **PGP encryption support is coming soon.**
