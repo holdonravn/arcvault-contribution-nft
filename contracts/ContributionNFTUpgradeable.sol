@@ -12,7 +12,7 @@
 // All contributions are experimental and non-binding.
 //
 // 👤 Attribution:
-// Created by: HoldOnRavn (github.com/holdonravn)
+// Created by: HoldOnRavn (github.com/aidenravn)
 // License: MIT — use, modify, and distribute freely with attribution.
 // See full license terms in LICENSE file.
 //
