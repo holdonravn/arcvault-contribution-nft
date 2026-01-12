@@ -12,7 +12,7 @@
 // All contributions are experimental and non-binding.
 //
 // 👤 Attribution:
-// Created by: HoldOnRavn (github.com/aidenravn)
+// Created by: aidenravn (github.com/aidenravn)
 // License: MIT — use, modify, and distribute freely with attribution.
 // See full license terms in LICENSE file.
 //
@@ -409,4 +409,4 @@ contract ContributionNFTUpgradeable is
     }
 }
 This is not a production-ready contract
-// This contract is developed under the identity "HoldOnRavn" for public good and testing purposes.
+// This contract is developed under the identity "aidenravn" for public good and testing purposes.
