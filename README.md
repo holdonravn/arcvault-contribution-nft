@@ -26,6 +26,12 @@
 **Privileged roles:** SIGNER_ROLE / POLICY_ADMIN / METADATA_ADMIN / UPGRADER_ROLE → **TBD (to be assigned via multisig + timelock before mainnet)**
 
 ---
+⚠️ Detailed Security & Legal Notice
+
+Important: This repository and associated projects are provided strictly for educational, illustrative, and research purposes. 1. No Financial Advice: The authors do not provide financial advice. Any code, mockups, or examples are not recommendations for executing transactions or making financial decisions. 2. Demo / Test Only: All mockups, scripts, and examples are for demonstration, UX design, or educational purposes only. Do not use them with real funds. 3. User Responsibility: Users must independently verify all blockchain addresses, signatures, and transactions before sending any cryptocurrency. 4. Forking / Modifications: Forking, cloning, or modifying this repository does not transfer any liability from the user. 5. No Liability: The authors assume no responsibility for any losses, errors, or damages arising from the use of this repository. 6. Educational Use Only: Use these projects only for learning, testing, or prototyping in a safe, isolated environment.
+
+⚠️ Always exercise extreme caution when handling real funds. These projects are not financial tools.
+
 
 ## 📍 Why / Use Case
 
